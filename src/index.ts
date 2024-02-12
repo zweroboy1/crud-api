@@ -4,7 +4,6 @@ import { PORT, MULTIMODE, WORKERS_COUNT } from './constants';
 import { balancer } from './utils/balancer';
 import { createHttpServer } from './utils/createHttpServer';
 
-
 if (MULTIMODE) {
   if (cluster.isPrimary) {
     console.log(`Master process ${process.pid} is running on port ${PORT}`);

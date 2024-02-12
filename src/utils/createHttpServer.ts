@@ -1,5 +1,11 @@
 import { IncomingMessage, ServerResponse } from 'http';
-import { getUsers, addUser, getUserById, updateUser, deleteUser } from '../usersStorage/userHandler';
+import {
+  getUsers,
+  addUser,
+  getUserById,
+  updateUser,
+  deleteUser,
+} from '../usersStorage/userHandler';
 import { sendResponse } from './sendResponse';
 import { isUUIDv4 } from './isUUIDv4';
 import { User } from '../types';
@@ -13,22 +19,25 @@ const parseJson = (jsonString: string): unknown | null => {
   }
 };
 
-const validatedUser = (user: unknown): Omit<User, "id"> | null => {
-  if (typeof user !== 'object' || !user || !('username' in user)
-    || !('age' in user)
-    || !('hobbies' in user)
-    || typeof user.username !== 'string'
-    || user.age != Number(user.age)
-    || !Array.isArray(user.hobbies)
-    || !user.hobbies.every((hobby: unknown) => typeof hobby === 'string')
+const validatedUser = (user: unknown): Omit<User, 'id'> | null => {
+  if (
+    typeof user !== 'object' ||
+    !user ||
+    !('username' in user) ||
+    !('age' in user) ||
+    !('hobbies' in user) ||
+    typeof user.username !== 'string' ||
+    user.age != Number(user.age) ||
+    !Array.isArray(user.hobbies) ||
+    !user.hobbies.every((hobby: unknown) => typeof hobby === 'string')
   ) {
     return null;
   }
   return {
     username: user.username,
     age: Number(user.age),
-    hobbies: user.hobbies
-  }
+    hobbies: user.hobbies,
+  };
 };
 
 export const createHttpServer = async (
@@ -44,7 +53,11 @@ export const createHttpServer = async (
     }
 
     const pathSegments = url.split('/').filter(Boolean);
-    if (pathSegments[0] !== 'api' || pathSegments[1] !== 'users' || pathSegments.length > 3) {
+    if (
+      pathSegments[0] !== 'api' ||
+      pathSegments[1] !== 'users' ||
+      pathSegments.length > 3
+    ) {
       sendResponse(response, 404, 'Page is Not Found');
       return;
     }
@@ -63,12 +76,20 @@ export const createHttpServer = async (
         request.on('end', async () => {
           const providedUserData = parseJson(body);
           if (!providedUserData) {
-            sendResponse(response, 400, 'Wrong User Format (valid JSON is needed)');
+            sendResponse(
+              response,
+              400,
+              'Wrong User Format (valid JSON is needed)'
+            );
             return;
           }
           const user = validatedUser(providedUserData);
           if (!user) {
-            sendResponse(response, 400, 'Wrong User Format (we need only 3 fields - username(string), age(number), hobbies(array of strings))');
+            sendResponse(
+              response,
+              400,
+              'Wrong User Format (we need only 3 fields - username(string), age(number), hobbies(array of strings))'
+            );
             return;
           }
           const newUser = await addUser(user);

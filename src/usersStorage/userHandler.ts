@@ -23,7 +23,9 @@ export const addUser = async (user: Omit<User, 'id'>): Promise<User> => {
   return newUser;
 };
 
-export const getUserById = async (userId: string): Promise<User | undefined> => {
+export const getUserById = async (
+  userId: string
+): Promise<User | undefined> => {
   const users = await getUsers();
   return users.find((user) => user.id === userId);
 };
@@ -40,7 +42,10 @@ export const deleteUser = async (userId: string): Promise<boolean> => {
   return index !== -1;
 };
 
-export const updateUser = async (userId: string, updatedUser: Partial<User>): Promise<User | undefined> => {
+export const updateUser = async (
+  userId: string,
+  updatedUser: Partial<User>
+): Promise<User | undefined> => {
   const users = await getUsers();
   const index = users.findIndex((user) => user.id === userId);
 
@@ -58,4 +63,3 @@ const saveUsers = async (users: User[]): Promise<void> => {
   const data = JSON.stringify(users, null, 2);
   await fs.writeFile(USERS_FILE_PATH, data, 'utf-8');
 };
-
