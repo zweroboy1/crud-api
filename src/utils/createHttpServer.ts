@@ -1,5 +1,5 @@
 import { IncomingMessage, ServerResponse } from 'http';
-import { getUsers, addUser, getUserById, updateUser } from '../usersStorage/userHandler';
+import { getUsers, addUser, getUserById, updateUser, deleteUser } from '../usersStorage/userHandler';
 import { sendResponse } from './sendResponse';
 import { isUUIDv4 } from './isUUIDv4';
 import { User } from '../types';
@@ -89,6 +89,16 @@ export const createHttpServer = async (
       const user = await getUserById(userId);
       if (user) {
         sendResponse(response, 200, JSON.stringify(user));
+      } else {
+        sendResponse(response, 404, 'User Is Not Found');
+      }
+      return;
+    }
+
+    if (method === 'DELETE') {
+      const isUserDeleted = await deleteUser(userId);
+      if (isUserDeleted) {
+        sendResponse(response, 204, 'User was deleted');
       } else {
         sendResponse(response, 404, 'User Is Not Found');
       }

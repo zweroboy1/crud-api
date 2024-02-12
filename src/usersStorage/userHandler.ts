@@ -28,6 +28,18 @@ export const getUserById = async (userId: string): Promise<User | undefined> => 
   return users.find((user) => user.id === userId);
 };
 
+export const deleteUser = async (userId: string): Promise<boolean> => {
+  const users = await getUsers();
+  const index = users.findIndex((user) => user.id === userId);
+
+  if (index !== -1) {
+    users.splice(index, 1);
+    await saveUsers(users);
+  }
+
+  return index !== -1;
+};
+
 export const updateUser = async (userId: string, updatedUser: Partial<User>): Promise<User | undefined> => {
   const users = await getUsers();
   const index = users.findIndex((user) => user.id === userId);
