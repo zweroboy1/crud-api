@@ -14,6 +14,10 @@ It is a simple CRUD API implemented using in-file database underneath.
 
  `npm install`
 
+ If you want to change PORT you should create .env file in root folder (like .env.example file). Default port is 4000.
+
+ http://localhost:4000/api/users is the default endpoint.
+
 ## Scripts:
 
 `npm run start:dev` - start server in development mode
@@ -81,7 +85,7 @@ It is a simple CRUD API implemented using in-file database underneath.
 8. There could be implemented horizontal scaling for application, there should be `npm` script `start:multi` that starts multiple instances of your application using the Node.js `Cluster` API (equal to the number of available parallelism - 1 on the host machine, each listening on port PORT + n) with a **load balancer** that distributes requests across them (using Round-robin algorithm). For example: available parallelism is 4,  `PORT` is 4000. On run `npm run start:multi` it works following way
 
 - On `localhost:4000/api` load balancer is listening for requests
-- On `localhost:4001/api`,   `localhost:4002/api`,  `localhost:4003/api` workers are listening for requests from load balancer
+- On `localhost:4001/api`,    `localhost:4002/api`,  `localhost:4003/api` workers are listening for requests from load balancer
 - When user sends request to `localhost:4000/api`, load balancer sends this request to `localhost:4001/api`, next user request is sent to `localhost:4002/api` and so on.
 - After sending request to `localhost:4003/api` load balancer starts from the first worker again (sends request to `localhost:4001/api`)
 - State of db should be consistent between different workers, for example:

@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "ESNext",
-    "allowJs": false,
+    "allowJs": true,
     "baseUrl": ".",
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -9,17 +9,16 @@
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
-    "outDir": "dist",
-    "module": "commonjs",
-    "moduleResolution": "Node",
+    "outDir": "./dist",
+    "module": "CommonJS",
+    "moduleResolution": "node",
     "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true,
+    "noEmit": false,
     "noImplicitAny": true,
     "paths": {
       "@/*": ["./src/*"]
     },
-    "types": ["node"]
+    "types": ["node"],
   },
   "include": ["src/**/*.ts"],
 }
