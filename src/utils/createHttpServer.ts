@@ -94,8 +94,10 @@ export const createHttpServer = async (
           }
           const newUser = await addUser(user);
           sendResponse(response, 201, JSON.stringify(newUser));
+          return;
         });
       }
+      sendResponse(response, 405, 'Method not allowed for this endpoint');
       return;
     }
 
@@ -132,8 +134,26 @@ export const createHttpServer = async (
         body += chunk;
       });
       request.on('end', async () => {
-        const updatedData = JSON.parse(body);
-        const updatedUser = await updateUser(userId, updatedData);
+        const updatedData = parseJson(body);
+
+        if (!updatedData) {
+          sendResponse(response, 400, 'Invalid JSON Format');
+          return;
+        }
+
+        const validatedUserData = validatedUser(updatedData);
+
+        if (!validatedUserData) {
+          sendResponse(
+            response,
+            400,
+            'Invalid User Format (we need only 3 fields - username(string), age(number), hobbies(array of strings))'
+          );
+          return;
+        }
+
+        const updatedUser = await updateUser(userId, validatedUserData);
+
         if (updatedUser) {
           sendResponse(response, 200, JSON.stringify(updatedUser));
         } else {
@@ -145,6 +165,6 @@ export const createHttpServer = async (
 
     sendResponse(response, 405, 'Method not allowed for this endpoint');
   } catch (error) {
-    sendResponse(response, 500, `Something goes wrong... ${error}`);
+    sendResponse(response, 500, `Something went wrong... ${error}`);
   }
 };

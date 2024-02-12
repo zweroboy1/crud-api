@@ -71,12 +71,10 @@
   },
   {
     "id": "82faec2b-88c9-48bb-ad4f-8c80a93b7ed1",
-    "username": "peter",
-    "age": 221,
+    "username": "alex",
+    "age": 555,
     "hobbies": [
-      "chess",
-      "music",
-      "null"
+      "1"
     ]
   }
 ]
