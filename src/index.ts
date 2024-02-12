@@ -1,25 +1,9 @@
 import cluster from 'cluster';
-import http, { IncomingMessage, ServerResponse } from 'http';
+import http from 'http';
 import { PORT, MULTIMODE, WORKERS_COUNT } from './constants';
 import { balancer } from './utils/balancer';
+import { createHttpServer } from './utils/createHttpServer';
 
-const createHttpServer = (
-  request: IncomingMessage,
-  response: ServerResponse
-) => {
-  const path = request.url || '';
-
-  if (path === '/api/users') {
-    response.write('API endpoint works!\n');
-    response.write(`${MULTIMODE} ${WORKERS_COUNT}!\n`);
-    response.write(Date.now().toString());
-    response.end();
-  } else {
-    response.writeHead(404, { 'Content-Type': 'text/plain' });
-    response.write('404 Not Found');
-    response.end();
-  }
-};
 
 if (MULTIMODE) {
   if (cluster.isPrimary) {
@@ -49,7 +33,7 @@ if (MULTIMODE) {
   }
 } else {
   const server = http.createServer(createHttpServer);
-  server.listen(PORT, () => {
+  server.listen(PORT, async () => {
     console.log(`Server is running on port ${PORT}`);
   });
 }
