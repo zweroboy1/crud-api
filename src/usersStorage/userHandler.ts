@@ -47,5 +47,3 @@ const saveUsers = async (users: User[]): Promise<void> => {
   await fs.writeFile(USERS_FILE_PATH, data, 'utf-8');
 };
 
-
-console.log(getUsers());

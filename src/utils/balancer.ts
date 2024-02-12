@@ -1,5 +1,5 @@
 import http, { IncomingMessage, ServerResponse } from 'http';
-import { showError } from './showError';
+import { sendResponse } from './sendResponse';
 
 export function balancer(
   workerPorts: number[],
@@ -24,7 +24,7 @@ function proxyRequest(
   const hostHeader = req.headers.host;
   if (!hostHeader) {
     console.error(`Host header is not available in the request.`);
-    showError(res);
+    sendResponse(res, 500, 'Internal Server Error');
     return;
   }
 
@@ -49,6 +49,6 @@ function proxyRequest(
 
   proxyReq.on('error', (err) => {
     console.error(`Error proxying request: ${err.message}`);
-    showError(res);
+    sendResponse(res, 500, 'Internal Server Error');
   });
 }
