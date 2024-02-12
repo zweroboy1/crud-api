@@ -1,15 +1,17 @@
-import http from 'http';
-import dotenv from 'dotenv';
+import cluster from 'cluster';
+import http, { IncomingMessage, ServerResponse } from 'http';
+import { PORT, MULTIMODE, WORKERS_COUNT } from './constants';
+import { balancer } from './utils/balancer';
 
-dotenv.config({ path: '.env' });
-
-const PORT = process.env.PORT || 4000;
-
-const server = http.createServer((request, response) => {
+const createHttpServer = (
+  request: IncomingMessage,
+  response: ServerResponse
+) => {
   const path = request.url || '';
 
   if (path === '/api/users') {
     response.write('API endpoint works!\n');
+    response.write(`${MULTIMODE} ${WORKERS_COUNT}!\n`);
     response.write(Date.now().toString());
     response.end();
   } else {
@@ -17,9 +19,37 @@ const server = http.createServer((request, response) => {
     response.write('404 Not Found');
     response.end();
   }
-});
+};
 
-
-server.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+if (MULTIMODE) {
+  if (cluster.isPrimary) {
+    console.log(`Master process ${process.pid} is running on port ${PORT}`);
+    const workerPorts: number[] = [];
+    for (let i = 0; i < WORKERS_COUNT; i++) {
+      const workerPort = PORT + 1 + i;
+      cluster.fork({ CHILD_PORT: workerPort });
+      workerPorts.push(workerPort);
+    }
+    cluster.on('exit', (worker, code, signal) => {
+      console.log(
+        `Worker ${worker.process.pid} died with code ${code} and signal ${signal}`
+      );
+      console.log('Forking a new worker');
+      cluster.fork();
+    });
+    balancer(workerPorts, PORT);
+  } else {
+    const childPort = Number(process.env.CHILD_PORT);
+    const server = http.createServer(createHttpServer);
+    server.listen(childPort, () => {
+      console.log(
+        `Worker process ${process.pid} is running on port ${childPort}`
+      );
+    });
+  }
+} else {
+  const server = http.createServer(createHttpServer);
+  server.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+  });
+}
