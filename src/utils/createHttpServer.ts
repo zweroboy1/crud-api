@@ -97,7 +97,9 @@ export const createHttpServer = async (
           return;
         });
       }
-      sendResponse(response, 405, 'Method not allowed for this endpoint');
+      if (method !== 'POST' && method !== 'GET') {
+        sendResponse(response, 405, 'Method not allowed for this endpoint');
+      }
       return;
     }
 

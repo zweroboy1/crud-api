@@ -4,7 +4,6 @@ import supertest from 'supertest';
 const request = supertest(createHttpServer);
 
 describe('HTTP Server Tests - Get User Details', () => {
-
   let firstUserId: string;
 
   it('should handle GET requests to /api/users', async () => {
@@ -22,5 +21,4 @@ describe('HTTP Server Tests - Get User Details', () => {
     const response = await request.get(`/api/users/${firstUserId}`);
     expect(response.status).toBe(200);
   });
-
 });

@@ -23,5 +23,4 @@ describe('HTTP Server Tests', () => {
     const response = await request.get('/api/users');
     expect(response.status).toBe(200);
   });
-
 });
