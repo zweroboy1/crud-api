@@ -1,0 +1,98 @@
+[
+  {
+    "id": "8171453e-5c18-4833-9bfa-af81336ee720",
+    "username": "alex",
+    "age": 5,
+    "hobbies": [
+      "chess"
+    ]
+  },
+  {
+    "id": "d9d2a210-a69b-4581-86f1-5ebb4a3b5c50",
+    "username": "alex",
+    "age": 5,
+    "hobbies": [
+      "chess"
+    ]
+  },
+  {
+    "id": "ef3942d6-a437-4390-bdac-8cb4f2940677",
+    "username": "alex",
+    "age": 5,
+    "hobbies": [
+      "chess"
+    ]
+  },
+  {
+    "id": "b9647bff-e1b1-42bd-bf9d-bc893afe334f",
+    "username": "alex",
+    "age": 5,
+    "hobbies": [
+      "chess"
+    ]
+  },
+  {
+    "id": "679c29d6-7dcb-44e3-9295-1358e0c165c0",
+    "username": "bob",
+    "age": 12,
+    "hobbies": [
+      "chess",
+      "music"
+    ]
+  },
+  {
+    "id": "1fe21cec-94ca-422e-92cb-3fa54d29fd9b",
+    "username": "peter",
+    "age": 12,
+    "hobbies": [
+      "chess",
+      "music"
+    ]
+  },
+  {
+    "id": "72d77efe-504a-4d31-a74c-e59e14dd850f",
+    "username": "peter",
+    "age": 221,
+    "hobbies": [
+      "chess",
+      "music",
+      "null"
+    ]
+  },
+  {
+    "id": "96d2dfc0-9eff-434b-b7d8-11177a0999b8",
+    "username": "peter",
+    "age": 221,
+    "hobbies": [
+      "chess",
+      "music",
+      "null"
+    ]
+  },
+  {
+    "id": "82faec2b-88c9-48bb-ad4f-8c80a93b7ed1",
+    "username": "alex",
+    "age": 555,
+    "hobbies": [
+      "1"
+    ]
+  },
+  {
+    "id": "643fb6ee-7d2d-4336-a065-48ddf4cc29c7",
+    "username": "JohnDoe",
+    "age": 25,
+    "hobbies": [
+      "reading",
+      "coding"
+    ]
+  },
+  {
+    "id": "c02a54d2-749b-4edc-8edb-99d4ad628f99",
+    "username": "JohnDoe",
+    "age": 25,
+    "hobbies": [
+      "reading",
+      "coding"
+    ]
+  }
+]
